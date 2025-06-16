@@ -18,7 +18,6 @@
 #
 
 set -e
-LOGFILE="/var/log/letsencrypt/shell.log"
 
 echo() {
   # Usage: echo "message"
@@ -26,7 +25,7 @@ echo() {
   local timestamp
   timestamp=$(date +"%Y-%m-%d %H:%M:%S")
   # Print to stdout and append to log file
-  command echo "$timestamp $msg" | tee -a "$LOGFILE"
+  command echo "$timestamp $msg" | tee -a "/var/log/letsencrypt/shell.log"
 }
 
 export -f echo
