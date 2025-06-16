@@ -18,7 +18,7 @@
 #
 
 set -e
-LOGFILE="/var/log//var/log/letsencrypt/shell.log"
+LOGFILE="/var/log/letsencrypt/shell.log"
 
 echo() {
   # Usage: echo "message"
