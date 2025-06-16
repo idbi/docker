@@ -18,7 +18,7 @@
 
 set -e
 
-echo "### [INFO] Starting Vault upload step..."
+log "### [INFO] Starting Vault upload step..."
 
 # Required variables
 : "${VAULT_CERT_PATH:?Missing VAULT_CERT_PATH}"
@@ -27,23 +27,23 @@ echo "### [INFO] Starting Vault upload step..."
 CERTFILE="/etc/letsencrypt/live/$DOMAIN/fullchain.pem"
 KEYFILE="/etc/letsencrypt/live/$DOMAIN/privkey.pem"
 
-echo "### [INFO] Parameters:"
-echo "    DOMAIN           = $DOMAIN"
-echo "    VAULT_CERT_PATH  = $VAULT_CERT_PATH"
-echo "    CERTFILE         = $CERTFILE"
-echo "    KEYFILE          = $KEYFILE"
+log "### [INFO] Parameters:"
+log "    DOMAIN           = $DOMAIN"
+log "    VAULT_CERT_PATH  = $VAULT_CERT_PATH"
+log "    CERTFILE         = $CERTFILE"
+log "    KEYFILE          = $KEYFILE"
 
 if [ ! -f "$CERTFILE" ]; then
-  echo "### [ERROR] Certificate file not found at $CERTFILE"
+  log "### [ERROR] Certificate file not found at $CERTFILE"
   exit 2
 fi
 
 if [ ! -f "$KEYFILE" ]; then
-  echo "### [ERROR] Private key file not found at $KEYFILE"
+  log "### [ERROR] Private key file not found at $KEYFILE"
   exit 2
 fi
 
-echo "### [INFO] Both certificate and key found. Preparing to upload to Vault..."
+log "### [INFO] Both certificate and key found. Preparing to upload to Vault..."
 
 vault kv put "$VAULT_CERT_PATH/$DOMAIN" \
     fullchain="$(cat "$CERTFILE")" \
@@ -51,10 +51,10 @@ vault kv put "$VAULT_CERT_PATH/$DOMAIN" \
 
 VAULT_STATUS=$?
 if [ $VAULT_STATUS -eq 0 ]; then
-  echo "### [INFO] Certificate and key uploaded to Vault successfully at $VAULT_CERT_PATH/$DOMAIN"
+  log "### [INFO] Certificate and key uploaded to Vault successfully at $VAULT_CERT_PATH/$DOMAIN"
 else
-  echo "### [ERROR] Vault upload failed with exit code $VAULT_STATUS"
+  log "### [ERROR] Vault upload failed with exit code $VAULT_STATUS"
   exit $VAULT_STATUS
 fi
 
-echo "### [INFO] Vault upload step completed."
+log "### [INFO] Vault upload step completed."

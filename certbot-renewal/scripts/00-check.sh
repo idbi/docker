@@ -22,7 +22,7 @@ set -e
 #!/bin/bash
 set -e
 
-echo "### [INFO] Starting certificate renewal check..."
+log "### [INFO] Starting certificate renewal check..."
 
 # Validate required variables
 : "${VAULT_CERT_PATH:?Missing VAULT_CERT_PATH}"
@@ -31,36 +31,36 @@ echo "### [INFO] Starting certificate renewal check..."
 DAYS_THRESHOLD="${DAYS_THRESHOLD:-7}"
 TMP_CERT="/tmp/checkcert_${DOMAIN}.pem"
 
-echo "### [INFO] Parameters:"
-echo "    DOMAIN           = $DOMAIN"
-echo "    VAULT_CERT_PATH  = $VAULT_CERT_PATH"
-echo "    DAYS_THRESHOLD   = $DAYS_THRESHOLD"
+log "### [INFO] Parameters:"
+log "    DOMAIN           = $DOMAIN"
+log "    VAULT_CERT_PATH  = $VAULT_CERT_PATH"
+log "    DAYS_THRESHOLD   = $DAYS_THRESHOLD"
 
-echo "### [INFO] Attempting to fetch existing certificate from Vault at: ${VAULT_CERT_PATH}/${DOMAIN}"
+log "### [INFO] Attempting to fetch existing certificate from Vault at: ${VAULT_CERT_PATH}/${DOMAIN}"
 
 CERT=$(vault kv get -field=fullchain "$VAULT_CERT_PATH/$DOMAIN" 2>/dev/null || true)
 if [ -z "$CERT" ]; then
-  echo "### [WARN] No valid certificate found in Vault. Renewal REQUIRED."
+  log "### [WARN] No valid certificate found in Vault. Renewal REQUIRED."
   exit 0
 fi
 
-echo "### [INFO] Certificate fetched from Vault. Writing temporary file for analysis."
+log "### [INFO] Certificate fetched from Vault. Writing temporary file for analysis."
 echo "$CERT" > "$TMP_CERT"
 
-echo "### [INFO] Extracting certificate expiration date using OpenSSL..."
+log "### [INFO] Extracting certificate expiration date using OpenSSL..."
 EXP_DATE=$(openssl x509 -enddate -noout -in "$TMP_CERT" | cut -d= -f2)
-echo "    Expiration date: $EXP_DATE"
+log "    Expiration date: $EXP_DATE"
 
 EXP_EPOCH=$(date -d "$EXP_DATE" +%s)
 NOW_EPOCH=$(date +%s)
 DAYS_LEFT=$(( (EXP_EPOCH - NOW_EPOCH) / 86400 ))
 
-echo "### [INFO] Certificate expires in $DAYS_LEFT days."
+log "### [INFO] Certificate expires in $DAYS_LEFT days."
 
 if [ "$DAYS_LEFT" -le "$DAYS_THRESHOLD" ]; then
-  echo "### [INFO] $DAYS_LEFT days left is less than or equal to threshold of $DAYS_THRESHOLD. Renewal NEEDED!"
+  log "### [INFO] $DAYS_LEFT days left is less than or equal to threshold of $DAYS_THRESHOLD. Renewal NEEDED!"
   exit 0  # 0 = Needs renew
 else
-  echo "### [INFO] $DAYS_LEFT days left is greater than threshold of $DAYS_THRESHOLD. Renewal NOT required."
+  log "### [INFO] $DAYS_LEFT days left is greater than threshold of $DAYS_THRESHOLD. Renewal NOT required."
   exit 1  # 1 = No renew
 fi

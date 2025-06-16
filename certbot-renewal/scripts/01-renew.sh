@@ -19,14 +19,14 @@
 
 set -e
 
-echo "### [INFO] Starting Certbot issuance/renewal process..."
+log "### [INFO] Starting Certbot issuance/renewal process..."
 
 : "${DOMAIN:?Missing DOMAIN}"
 : "${EMAIL:?Missing EMAIL}"
 
-echo "### [INFO] Parameters:"
-echo "    DOMAIN = $DOMAIN"
-echo "    EMAIL  = $EMAIL"
+log "### [INFO] Parameters:"
+log "    DOMAIN = $DOMAIN"
+log "    EMAIL  = $EMAIL"
 
 CERTBOT_CMD="certbot certonly \
   --dns-route53 \
@@ -37,8 +37,8 @@ CERTBOT_CMD="certbot certonly \
   --work-dir /var/lib/letsencrypt \
   --logs-dir /var/log/letsencrypt"
 
-echo "### [INFO] About to run Certbot command:"
-echo "    $CERTBOT_CMD"
+log "### [INFO] About to run Certbot command:"
+log "    $CERTBOT_CMD"
 
 # Actually run certbot (note: use eval to expand variables in CMD string for logging)
 eval $CERTBOT_CMD
@@ -46,14 +46,14 @@ eval $CERTBOT_CMD
 STATUS=$?
 
 if [ $STATUS -eq 0 ]; then
-  echo "### [INFO] Certbot completed successfully for $DOMAIN."
+  log "### [INFO] Certbot completed successfully for $DOMAIN."
 else
-  echo "### [ERROR] Certbot failed with exit code $STATUS for $DOMAIN!"
+  log "### [ERROR] Certbot failed with exit code $STATUS for $DOMAIN!"
   exit $STATUS
 fi
 
 # Show location of the produced certs
-echo "### [INFO] The certificates and keys should be located at: /etc/letsencrypt/live/$DOMAIN/"
+log "### [INFO] The certificates and keys should be located at: /etc/letsencrypt/live/$DOMAIN/"
 ls -l /etc/letsencrypt/live/"$DOMAIN"
 
-echo "### [INFO] Certbot step completed."
+log "### [INFO] Certbot step completed."
