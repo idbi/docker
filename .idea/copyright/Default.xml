@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="&amp;#36;project.name&#10;&amp;#36;file.fileName&#10;This file is part of &amp;#36;project.name.&#10;Copyright (c) &amp;#36;today.year.&#10;Last modified at &amp;#36;file.lastModified.format(&quot;EEE, d MMM yyyy HH:mm:ss Z&quot;) by &amp;#36;username.&#10;&#10;DISCLAIMER: This software is provided &quot;as is&quot; without warranty of any kind, either expressed or implied. The entire&#10;risk as to the quality and performance of the software is with you. In no event will the author be liable for any&#10;damages, including any general, special, incidental, or consequential damages arising out of the use or inability&#10;to use the software (that includes, but not limited to, loss of data, data being rendered inaccurate, or losses&#10;sustained by you or third parties, or a failure of the software to operate with any other programs), even if the&#10;author has been advised of the possibility of such damages.&#10;If a license file is provided with this software, all use of this software is governed by the terms and conditions&#10;set forth in that license file. If no license file is provided, no rights are granted to use, modify, distribute,&#10;or otherwise exploit this software." />
+    <option name="myName" value="Default" />
+  </copyright>
+</component>
