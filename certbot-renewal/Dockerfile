@@ -14,10 +14,10 @@ WORKDIR /work
 
 # Copy entrypoint and scripts
 COPY entrypoint.sh /work/entrypoint.sh
-COPY scripts/*.sh /work/scripts/
+COPY scripts/* /work/scripts/
 
 # Ensure all scripts are executable
-RUN chmod +x /work/*.sh /work/entrypoint.sh
+RUN chmod +x /work/scripts/* /work/entrypoint.sh
 
 # Set default entrypoint
 ENTRYPOINT ["/work/entrypoint.sh"]
