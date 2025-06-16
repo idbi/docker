@@ -28,7 +28,7 @@ log() {
   command echo "$timestamp $msg" | tee -a "/var/log/letsencrypt/shell.log"
 }
 
-export -f echo
+export -f log
 
 log "### [INFO] Entrypoint script started."
 
