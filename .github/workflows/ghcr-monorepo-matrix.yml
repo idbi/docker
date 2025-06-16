@@ -66,6 +66,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           file: ${{ matrix.context }}/Dockerfile
           push: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
           tags: |
