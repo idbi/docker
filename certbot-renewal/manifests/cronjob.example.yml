@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: certbot-renewal
+  namespace: default
+spec:
+  schedule: "0 2 * * *"  # Runs daily at 2AM UTC; adjust as needed
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: certbot-renewal
+              image: ghcr.io/idbi/certbot-renewal:latest
+              imagePullPolicy: Always
+              envFrom:
+                - secretRef:
+                    name: vault-credentials
+                - secretRef:
+                    name: route53-credentials
+              env:
+                - name: DOMAIN
+                  value: "example.com"                # <-- Change domain
+                - name: EMAIL
+                  value: "admin@example.com"          # <-- Change email
+                - name: VAULT_CERT_PATH
+                  value: "myapp/certificates"         # <-- Change vault path
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 256Mi
+                limits:
+                  cpu: 100m
+                  memory: 512Mi
+          # (Optional) Set serviceAccountName if using specific RBAC/pod identity
+          # serviceAccountName: certbot-renewal

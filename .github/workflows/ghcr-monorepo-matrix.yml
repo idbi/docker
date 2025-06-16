@@ -5,10 +5,7 @@ on:
     branches: [main]
     paths:
       - '**/Dockerfile'
-      - .github/workflows/ghcr-monorepo-matrix.yml
-  pull_request:
-    paths:
-      - '**/Dockerfile'
+      - '**/*.sh'
       - .github/workflows/ghcr-monorepo-matrix.yml
   workflow_dispatch:
 
