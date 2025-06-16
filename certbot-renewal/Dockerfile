@@ -4,7 +4,7 @@ FROM hashicorp/vault:1.19.3 AS vault-bin
 # Stage 2: Start from a minimal base and add required utilities
 FROM alpine:latest
 
-RUN apk add --no-cache bash curl jq openssl certbot certbot-dns-route53
+RUN apk add --no-cache coreutils bash curl jq openssl certbot certbot-dns-route53
 
 # Copy Vault binary from build stage
 COPY --from=vault-bin /bin/vault /usr/local/bin/vault
