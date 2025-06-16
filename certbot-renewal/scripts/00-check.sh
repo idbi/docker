@@ -19,8 +19,6 @@
 
 set -e
 
-#!/bin/bash
-set -e
 
 log "### [INFO] Starting certificate renewal check..."
 

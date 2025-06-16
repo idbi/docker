@@ -17,8 +17,6 @@
 # or otherwise exploit this software.
 #
 
-set -e
-
 log() {
   # Usage: log "message"
   local msg="$1"

@@ -20,4 +20,4 @@ COPY scripts/* /work/scripts/
 RUN chmod +x /work/scripts/* /work/entrypoint.sh
 
 # Set default entrypoint
-ENTRYPOINT ["/work/entrypoint.sh"]
+ENTRYPOINT ["/work/entrypoint.sh && sleep 5"]
