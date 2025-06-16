@@ -18,6 +18,18 @@
 #
 
 set -e
+LOGFILE="/var/log//var/log/letsencrypt/shell.log"
+
+echo() {
+  # Usage: echo "message"
+  local msg="$1"
+  local timestamp
+  timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+  # Print to stdout and append to log file
+  command echo "$timestamp $msg" | tee -a "$LOGFILE"
+}
+
+export -f echo
 
 echo "### [INFO] Entrypoint script started."
 
