@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/idbi/docker/compare/certbot-renewal@v0.3.0...certbot-renewal@v0.3.1) (2026-02-20)
+
+
+### Bug Fixes
+
+* update versioning ([3f3c397](https://github.com/idbi/docker/commit/3f3c3972be71bcbebf693bb0aab520895de8b873))
+
 ## [0.3.0](https://github.com/idbi/docker/compare/certbot-renewal@v0.2.0...certbot-renewal@v0.3.0) (2026-02-20)
 
 
