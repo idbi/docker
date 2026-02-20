@@ -65,6 +65,7 @@ jobs:
           password: ${{ secrets.SECRET_TOKEN }}
 
       - name: Build and push ${{ matrix.build.component }}
+        id: build
         uses: docker/build-push-action@v5
         with:
           context: ./${{ matrix.build.component }}
@@ -73,3 +74,13 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}:${{ matrix.build.version }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}:${{ matrix.build.major }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}:latest
+          provenance: true
+          sbom: true
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
