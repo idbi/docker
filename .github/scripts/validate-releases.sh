@@ -36,13 +36,13 @@ for comp in $COMPONENTS; do
   fi
 
   version="${latest_tag#${comp}@v}"   # X.Y.Z
-  major="v${version%%.*}"            # vX
+  major="${version%%.*}"            # X
 
   echo "Validating ${comp} => version=${version}, major=${major}" >&2
 
-  BUILDS=$(echo "$BUILDS" | jq --arg comp "$comp" --arg version "$version" --arg major "$major" \
+  BUILDS=$(echo "$BUILDS" | jq -c --arg comp "$comp" --arg version "$version" --arg major "$major" \
     '. += [{"component": $comp, "version": $version, "major": $major}]')
 done
 
-# Output JSON for GitHub Actions
-echo "$BUILDS"
+# Output JSON for GitHub Actions (compact, single line)
+echo "$BUILDS" | jq -c .
