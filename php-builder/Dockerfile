@@ -34,5 +34,5 @@ RUN composer --version
 # Set the working directory
 WORKDIR /app
 
-# Start with bash shell
+# Start with bash shell on container run
 CMD ["bash"]
