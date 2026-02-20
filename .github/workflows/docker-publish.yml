@@ -79,6 +79,8 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}:${{ matrix.build.version }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}:${{ matrix.build.major }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-${{ matrix.build.component }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           provenance: true
           sbom: true
 

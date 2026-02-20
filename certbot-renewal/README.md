@@ -31,13 +31,24 @@ certbot-renewal/
 
 ## Usage
 
-### 1. **Build the Docker Image**
+### 1. **Pull from GitHub Container Registry**
+
+```sh
+docker pull ghcr.io/idbi/docker-certbot-renewal:latest
+```
+
+**Available tags:**
+- `ghcr.io/idbi/docker-certbot-renewal:latest` — Latest stable release
+- `ghcr.io/idbi/docker-certbot-renewal:X.Y.Z` — Specific version
+- `ghcr.io/idbi/docker-certbot-renewal:X` — Latest patch for major version
+
+### 2. **Build Locally**
 
 ```sh
 docker build -t certbot-renewal:latest certbot-renewal/
 ```
 
-### 2. **Run the Container**
+### 3. **Run the Container**
 
 Prepare your environment variables and credentials. Example:
 

@@ -17,10 +17,21 @@ It can be used for full-stack applications that require both Node.js and Java.
 
 ## Usage
 
-### **Build the Image**
+### **Pull from GitHub Container Registry**
 
 ```sh
-docker build -t nodejdk17-app .
+docker pull ghcr.io/idbi/docker-node-builder:latest
+```
+
+**Available tags:**
+- `ghcr.io/idbi/docker-node-builder:latest` — Latest stable release
+- `ghcr.io/idbi/docker-node-builder:X.Y.Z` — Specific version
+- `ghcr.io/idbi/docker-node-builder:X` — Latest patch for major version
+
+### **Build Locally**
+
+```sh
+docker build -t node-builder:latest .
 ```
 
 ### **Run an Interactive Shell**

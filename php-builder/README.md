@@ -65,18 +65,25 @@ A production-ready Docker image based on **PHP 8.3 CLI** with a comprehensive se
 
 ## Usage
 
-### **Build the Image**
+### **Pull from GitHub Container Registry**
+
+Use the published image from GitHub Container Registry:
+
+```sh
+docker pull ghcr.io/idbi/docker-php-builder:latest
+```
+
+**Available tags:**
+- `ghcr.io/idbi/docker-php-builder:latest` — Latest stable release
+- `ghcr.io/idbi/docker-php-builder:X.Y.Z` — Specific version
+- `ghcr.io/idbi/docker-php-builder:X` — Latest patch for major version
+
+### **Build Locally**
 
 Build from the local Dockerfile:
 
 ```sh
 docker build -t php-builder:latest .
-```
-
-Or using the published image from GitHub Container Registry (GHCR):
-
-```sh
-docker pull ghcr.io/idbi/php-builder:latest
 ```
 
 ### **Run Composer Install**
