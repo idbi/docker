@@ -40,7 +40,11 @@ jobs:
         id: validate
         run: |
           builds=$(./.github/scripts/validate-releases.sh)
-          echo "builds=${builds}" >> "$GITHUB_OUTPUT"
+          {
+            echo "builds<<EOF"
+            echo "$builds"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
   docker:
     runs-on: ubuntu-latest
