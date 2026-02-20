@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/idbi/docker/compare/php-builder@v0.2.0...php-builder@v0.3.0) (2026-02-20)
+
+
+### Features
+
+* update publish ([c875e84](https://github.com/idbi/docker/commit/c875e8498fe4652600743c7c137e09e8b09fd014))
+
 ## [0.2.0](https://github.com/idbi/docker/compare/php-builder@v0.1.0...php-builder@v0.2.0) (2026-02-20)
 
 
