@@ -9,7 +9,7 @@ git fetch --tags --force
 # Build list of components from manifest keys:
 COMPONENTS=$(cat .release-please-manifest.json | jq -r 'keys[]')
 
-echo "Components from manifest:"
+echo "Components from manifest:" >&2
 echo "$COMPONENTS" >&2
 
 # Build JSON array of components to publish
