@@ -1,0 +1,21 @@
+{
+  "include-component-in-tag": true,
+  "include-v-in-tag": true,
+  "tag-separator": "@",
+  "separate-pull-requests": true,
+  "packages": {
+    "php-builder": {
+      "component": "php-builder",
+      "release-type": "simple"
+    },
+    "node-builder": {
+      "component": "node-builder",
+      "release-type": "simple"
+    },
+    "certbot-renewal": {
+      "component": "certbot-renewal",
+      "release-type": "simple"
+    }
+  },
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+}

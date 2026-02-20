@@ -1,0 +1,96 @@
+name: docker-publish (auto from manifest)
+
+on:
+  push:
+    tags:
+      - "*@v*.*.*"
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository }} # owner/repo
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      release_json: ${{ steps.release.outputs.releases_created }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.SECRET_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.release_json == 'true' || needs.release.outputs.release_json == 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.SECRET_TOKEN }}
+
+      - name: Build & push only released packages (from manifest)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # release-please-action does not expose a dynamic list of released packages directly,
+          # so we determine the "latest tag per component" on this push when a release happened.
+
+          # Get all component tags created in this push (lightweight heuristic):
+          # If you prefer stricter behavior, we can diff before/after, but this works well in practice.
+          git fetch --tags --force
+
+          # Build list of components from manifest keys:
+          COMPONENTS=$(cat .release-please-manifest.json | jq -r 'keys[]')
+
+          echo "Components from manifest:"
+          echo "$COMPONENTS"
+
+          for comp in $COMPONENTS; do
+            # comp looks like "php-builder"
+            # Find latest tag for this component (because include-component-in-tag=true):
+            # tag pattern: <component>-vX.Y.Z
+            latest_tag=$(git tag --list "${comp}-v*" --sort=-version:refname | head -n 1 || true)
+
+            if [ -z "${latest_tag}" ]; then
+              echo "No tag found for ${comp}, skipping."
+              continue
+            fi
+
+            # Only build if the latest tag points at current commit (means release happened on this push)
+            tag_commit=$(git rev-list -n 1 "${latest_tag}")
+            head_commit=$(git rev-parse HEAD)
+
+            if [ "${tag_commit}" != "${head_commit}" ]; then
+              echo "Latest ${comp} tag (${latest_tag}) is not on HEAD, skipping."
+              continue
+            fi
+
+            version="${latest_tag#${comp}-v}"   # X.Y.Z
+            major="v${version%%.*}"            # vX
+
+            echo "Building ${comp} => version=${version}, major=${major}"
+
+            docker buildx build \
+              --platform linux/amd64,linux/arm64 \
+              --push \
+              -t "${REGISTRY}/${IMAGE_PREFIX}-${comp}:v${version}" \
+              -t "${REGISTRY}/${IMAGE_PREFIX}-${comp}:${major}" \
+              "./${comp}"
+          done
