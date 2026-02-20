@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/idbi/docker/compare/node-builder@v0.1.0...node-builder@v0.2.0) (2026-02-20)
+
+
+### Features
+
+* initial release ([b4db9d2](https://github.com/idbi/docker/commit/b4db9d2bd0ccf80c2f34b3b42231480b64ecbac8))
+
 ## 1.0.0 (2026-02-20)
 
 
