@@ -66,7 +66,7 @@ jobs:
             # comp looks like "php-builder"
             # Find latest tag for this component (because include-component-in-tag=true):
             # tag pattern: <component>-vX.Y.Z
-            latest_tag=$(git tag --list "${comp}-v*" --sort=-version:refname | head -n 1 || true)
+            latest_tag=$(git tag --list "${comp}@v*" --sort=-version:refname | head -n 1 || true)
 
             if [ -z "${latest_tag}" ]; then
               echo "No tag found for ${comp}, skipping."
@@ -82,7 +82,7 @@ jobs:
               continue
             fi
 
-            version="${latest_tag#${comp}-v}"   # X.Y.Z
+            version="${latest_tag#${comp}@v}"   # X.Y.Z
             major="v${version%%.*}"            # vX
 
             echo "Building ${comp} => version=${version}, major=${major}"
