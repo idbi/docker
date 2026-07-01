@@ -13,29 +13,10 @@ spec:
           volumes:
             - name: letsencrypt-logs
               emptyDir: {}
-            - name: otelcol-config
-              configMap:
-                name: otelcol-config         # see configMap below
-          tolerations:
-            - key: "kubernetes.azure.com/scalesetpriority"
-              operator: "Equal"
-              value: "spot"
-              effect: "NoSchedule"
           restartPolicy: Never
-          initContainers:
-            - name: otelcol
-              image: otel/opentelemetry-collector-contrib:latest
-              args:
-                - "--config=/etc/otelcol/otelcol-config.yaml"
-              restartPolicy: Always
-              volumeMounts:
-                - name: letsencrypt-logs
-                  mountPath: /var/log/letsencrypt
-                - name: otelcol-config
-                  mountPath: /etc/otelcol
           containers:
             - name: certbot-renewal
-              image: ghcr.io/idbi/certbot-renewal:latest
+              image: ghcr.io/idbi/docker-certbot-renewal:latest
               imagePullPolicy: Always
               volumeMounts:
                 - name: letsencrypt-logs
@@ -46,12 +27,14 @@ spec:
                 - secretRef:
                     name: route53-credentials
               env:
+                - name: VAULT_ADDR
+                  value: "https://vault.idbi.pe"
                 - name: DOMAIN
-                  value: "example.com"                # <-- Change domain
+                  value: "idbi.pe"                # <-- Change domain
                 - name: EMAIL
-                  value: "admin@example.com"          # <-- Change email
+                  value: "infrastructure@idbi.pe"          # <-- Change email
                 - name: VAULT_CERT_PATH
-                  value: "myapp/certificates"         # <-- Change vault path
+                  value: "idbi/certificates/nginx"         # <-- Change vault path
               resources:
                 requests:
                   cpu: 100m
