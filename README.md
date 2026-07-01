@@ -9,6 +9,9 @@ This repository is the home for all **IDBI’s containerized automation tools an
 ### **php-builder**
 A PHP 8.3 + Composer Docker image with comprehensive extensions for modern PHP applications. Includes support for databases (PDO MySQL, PostgreSQL), image processing (GD), and text processing (mbstring, intl, XML).
 
+### **php-fpm**
+A production-ready PHP 8.3 FPM (Alpine) runtime image tuned for Laravel. Ships hardened PHP settings, OPcache + JIT, a tuned FPM pool, a FastCGI healthcheck, and runs non-root. Pairs with `php-builder` (build) — apps extend it via `FROM` and run behind a separate nginx container.
+
 ### **node-builder**
 A Node.js LTS + OpenJDK 17 Docker image for full-stack applications requiring both Node.js and Java. Includes rsync for file synchronization tasks. Suitable for multi-language CI/CD workflows.
 
@@ -25,6 +28,10 @@ docker/
 │   ├── Dockerfile
 │   ├── README.md
 │   └── CHANGELOG.md
+├── php-fpm/
+│   ├── Dockerfile
+│   ├── README.md
+│   └── docker/
 ├── node-builder/
 │   ├── Dockerfile
 │   ├── README.md

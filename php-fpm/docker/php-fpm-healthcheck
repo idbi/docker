@@ -1,0 +1,12 @@
+#!/bin/sh
+# Liveness check for the PHP-FPM pool. Pings the FPM `ping.path` (/ping) over
+# the FastCGI socket using cgi-fcgi and asserts the configured "pong" reply.
+# Exit 0 = healthy, non-zero = unhealthy.
+set -eu
+
+LISTEN="${FPM_HEALTHCHECK_ADDR:-127.0.0.1:9000}"
+
+SCRIPT_NAME=/ping \
+SCRIPT_FILENAME=/ping \
+REQUEST_METHOD=GET \
+cgi-fcgi -bind -connect "$LISTEN" 2>/dev/null | grep -q "pong"

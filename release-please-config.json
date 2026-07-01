@@ -8,6 +8,10 @@
       "component": "php-builder",
       "release-type": "simple"
     },
+    "php-fpm": {
+      "component": "php-fpm",
+      "release-type": "simple"
+    },
     "node-builder": {
       "component": "node-builder",
       "release-type": "simple"
