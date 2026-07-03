@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.2...php-nginx@v0.2.3) (2026-07-03)
+
+
+### Bug Fixes
+
+* remove /readyz readiness endpoint from nginx config ([14d2479](https://github.com/idbi/id-docker/commit/14d2479ea1ce8554e6b65589ebbdd0ce6442a8fa))
+
 ## [0.2.2](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.1...php-nginx@v0.2.2) (2026-07-03)
 
 
