@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/idbi/docker/compare/php-nginx@v0.2.0...php-nginx@v0.2.1) (2026-07-03)
+
+
+### Bug Fixes
+
+* update healthcheck endpoint to /readyz in php-nginx Dockerfile ([c9f034c](https://github.com/idbi/docker/commit/c9f034c4d4f5c425c0205cf78893395802ba61d6))
+
 ## [0.2.0](https://github.com/idbi/docker/compare/php-nginx@v0.1.0...php-nginx@v0.2.0) (2026-07-03)
 
 
