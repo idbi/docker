@@ -1,0 +1,62 @@
+# Laravel server block. Rendered to /etc/nginx/conf.d/default.conf at container
+# start by the base image's entrypoint (envsubst on the ${NGINX_*} variables).
+# nginx's own runtime variables ($uri, $document_root, $fastcgi_script_name, ...)
+# are left untouched because they are not defined as environment variables.
+
+server {
+    listen      ${NGINX_PORT};
+    server_name _;
+
+    root  ${NGINX_ROOT};
+    index index.php index.html;
+
+    charset utf-8;
+
+    client_max_body_size ${NGINX_CLIENT_MAX_BODY_SIZE};
+
+    # --- Security headers ---
+    add_header X-Frame-Options        "SAMEORIGIN"                    always;
+    add_header X-Content-Type-Options "nosniff"                       always;
+    add_header X-XSS-Protection       "1; mode=block"                 always;
+    add_header Referrer-Policy        "strict-origin-when-cross-origin" always;
+
+    # --- Laravel front controller ---
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # --- Static assets: long cache, no access logging ---
+    # A location-level add_header overrides the server-level ones, so the
+    # single security header worth keeping on static files (nosniff) is
+    # re-declared here alongside an immutable, far-future cache policy.
+    location ~* \.(?:css|js|mjs|jpe?g|gif|png|webp|avif|svg|ico|woff2?|ttf|eot|map)$ {
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        access_log off;
+        try_files  $uri =404;
+    }
+
+    # --- PHP via FastCGI to the php-fpm container ---
+    location ~ \.php$ {
+        try_files $uri =404;
+        include   fastcgi_params;
+        fastcgi_pass  ${NGINX_PHP_FPM_HOST}:${NGINX_PHP_FPM_PORT};
+        fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT   $document_root;
+        fastcgi_param PATH_INFO       $fastcgi_path_info;
+        fastcgi_read_timeout ${NGINX_FASTCGI_READ_TIMEOUT};
+        fastcgi_buffers      16 16k;
+        fastcgi_buffer_size  32k;
+        fastcgi_hide_header  X-Powered-By;
+    }
+
+    # --- Hardening: deny hidden files (except ACME .well-known) and secrets ---
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+    location ~ \.(?:env|log|lock)$ {
+        deny all;
+    }
+}

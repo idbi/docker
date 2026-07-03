@@ -12,6 +12,10 @@
       "component": "php-fpm",
       "release-type": "simple"
     },
+    "php-nginx": {
+      "component": "php-nginx",
+      "release-type": "simple"
+    },
     "node-builder": {
       "component": "node-builder",
       "release-type": "simple"

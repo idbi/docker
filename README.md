@@ -12,6 +12,9 @@ A PHP 8.3 + Composer Docker image with comprehensive extensions for modern PHP a
 ### **php-fpm**
 A production-ready PHP 8.3 FPM (Alpine) runtime image tuned for Laravel. Ships hardened PHP settings, OPcache + JIT, a tuned FPM pool, a FastCGI healthcheck, and runs non-root. Pairs with `php-builder` (build) — apps extend it via `FROM` and run behind a separate nginx container.
 
+### **php-nginx**
+A production-ready nginx (Alpine) front end for the `php-fpm` runtime. Serves a Laravel app's static assets from `/app/public` and reverse-proxies PHP requests to a separate php-fpm container over FastCGI. Ships gzip, static-asset caching, security headers, and an internal healthcheck; runs non-root on port 8080.
+
 ### **node-builder**
 A Node.js LTS + OpenJDK 17 Docker image for full-stack applications requiring both Node.js and Java. Includes rsync for file synchronization tasks. Suitable for multi-language CI/CD workflows.
 
@@ -31,6 +34,11 @@ docker/
 ├── php-fpm/
 │   ├── Dockerfile
 │   ├── README.md
+│   └── docker/
+├── php-nginx/
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── CHANGELOG.md
 │   └── docker/
 ├── node-builder/
 │   ├── Dockerfile

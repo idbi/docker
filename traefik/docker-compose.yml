@@ -13,6 +13,13 @@ services:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
 
+      # HTTP/3 (QUIC) on the secure entrypoint. Stable in Traefik v3 (no
+      # experimental flag needed). Traefik advertises h3 to clients via an
+      # Alt-Svc header on :443; it requires the UDP 443 port published below,
+      # and UDP/443 must be open at the host/cloud firewall.
+      - --entrypoints.websecure.http3=true
+      - --entrypoints.websecure.http3.advertisedport=443
+
       # letsencrypt
       - --certificatesresolvers.letsencrypt.acme.email=cloud@no-id.org
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
@@ -21,7 +28,8 @@ services:
 
     ports:
       - "80:80"
-      - "443:443"
+      - "443:443/tcp"
+      - "443:443/udp" # QUIC / HTTP-3
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
