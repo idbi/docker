@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.1...php-nginx@v0.2.2) (2026-07-03)
+
+
+### Bug Fixes
+
+* enhance /readyz healthcheck to verify HTTP 200 status ([7f550c0](https://github.com/idbi/id-docker/commit/7f550c0e2db0b930f21472cc7795063abe0a7b52))
+
 ## [0.2.1](https://github.com/idbi/docker/compare/php-nginx@v0.2.0...php-nginx@v0.2.1) (2026-07-03)
 
 
