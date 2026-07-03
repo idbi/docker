@@ -12,7 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ${{ github.repository }} # owner/repo
+  IMAGE_PREFIX: idbi/docker # owner/repo
 
 jobs:
   release:
