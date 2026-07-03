@@ -58,8 +58,11 @@ it with the php-fpm container through a volume (see [Usage](#usage)).
   files.
 
 ### Healthcheck
-- A `HEALTHCHECK` requests the internal `GET /healthz` endpoint (which returns `200 ok`)
-  using the base image's `wget`.
+- A `HEALTHCHECK` requests the internal `GET /readyz` endpoint and **asserts an HTTP `200`
+  status** (not merely that a response came back), so a `3xx`/`4xx`/`5xx` or an unreachable
+  server all mark the container unhealthy. `/readyz` is answered by nginx directly (no
+  php-fpm dependency), so it reports a deterministic `200` even before app code is deployed.
+  The check follows `NGINX_PORT`, so it keeps working when the listen port is overridden.
 
 > The server block is rendered at container start from a template via `envsubst`, so the
 > upstream, document root, and limits are set from environment variables — no rebuild
@@ -199,14 +202,18 @@ docker run --rm php-nginx:latest nginx -t          # -> "test is successful"
 # Runs as non-root
 docker run --rm php-nginx:latest id                # -> uid=101(nginx)
 
-# Template rendered with your overrides
-docker run --rm -e NGINX_PHP_FPM_HOST=fpm php-nginx:latest \
-    sh -c 'nginx -t && grep -E "fastcgi_pass|listen" /etc/nginx/conf.d/default.conf'
+# Run it (NGINX_PHP_FPM_HOST must resolve at startup so nginx can bind its
+# FastCGI upstream; point it at loopback just to boot without a real backend).
+cid=$(docker run -d -e NGINX_PHP_FPM_HOST=127.0.0.1 -p 8080:8080 php-nginx:latest)
 
-# Healthcheck endpoint responds
-cid=$(docker run -d -p 8080:8080 php-nginx:latest)
-docker exec "$cid" wget -q -O - http://127.0.0.1:8080/healthz   # -> ok
-docker inspect --format '{{.State.Health.Status}}' "$cid"       # -> healthy
+# Template rendered with your overrides
+docker exec "$cid" grep -E "fastcgi_pass|listen " /etc/nginx/conf.d/default.conf
+
+# Healthcheck: /readyz returns an explicit HTTP 200 (answered by nginx, no
+# backend needed), and the container reports healthy.
+docker exec "$cid" wget -S -q -O /dev/null http://127.0.0.1:8080/readyz 2>&1 | head -1
+                                                       # -> HTTP/1.1 200 OK
+docker inspect --format '{{.State.Health.Status}}' "$cid"   # -> healthy
 docker rm -f "$cid"
 ```
 

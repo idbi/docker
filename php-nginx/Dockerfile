@@ -44,9 +44,14 @@ USER nginx
 
 EXPOSE 8080
 
-# Ping the internal /readyz endpoint. busybox wget ships in the base image.
+# Assert the internal /readyz endpoint returns HTTP 200 — not merely that a
+# response came back. busybox wget's -S prints the status line (even with -q),
+# which we match explicitly, so a 3xx/4xx/5xx or an unreachable server all fail
+# the check. ${NGINX_PORT} is expanded at runtime by the shell, so the check
+# follows the configured listen port even when it is overridden with -e.
 HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=3 \
-    CMD wget -q -O /dev/null http://127.0.0.1:8080/readyz || exit 1
+    CMD wget -S -q -T 2 -O /dev/null "http://127.0.0.1:${NGINX_PORT}/readyz" 2>&1 \
+        | grep -qE 'HTTP/[0-9.]+ 200' || exit 1
 
 # The base image's entrypoint renders templates from /etc/nginx/templates,
 # then execs this command.
