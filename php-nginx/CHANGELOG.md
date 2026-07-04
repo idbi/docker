@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.3...php-nginx@v0.2.4) (2026-07-04)
+
+
+### Bug Fixes
+
+* update nginx log_format for improved clarity ([23e800a](https://github.com/idbi/id-docker/commit/23e800a9049f1bad0553996f43ee70248a130c50))
+
 ## [0.2.3](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.2...php-nginx@v0.2.3) (2026-07-03)
 
 
