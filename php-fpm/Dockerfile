@@ -9,7 +9,7 @@ FROM php:8.3-fpm-alpine
 
 # `install-php-extensions` resolves the Alpine/musl build + runtime deps for
 # each extension automatically, so we don't have to track apk-dev packages by
-# hand. It is removed afterwards to keep the image lean.
+# hand.
 COPY --from=ghcr.io/mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/
 
 # `fcgi` provides cgi-fcgi, used by the HEALTHCHECK to ping the FPM pool.
