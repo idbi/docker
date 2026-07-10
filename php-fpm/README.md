@@ -246,9 +246,14 @@ point it at stderr in a downstream `.ini`:
 error_log = /dev/stderr
 ```
 
-FPM's own error logs and worker output already go to the container's stdout/stderr. The
-**per-request access log is disabled** in `zz-www.conf` (nginx logs requests already); to
-re-enable it, set `access.log = /proc/self/fd/2` in a later-loading pool config.
+FPM is configured to emit **errors only**. `zz-www.conf` sets `log_level = error`, which drops
+the FPM master's `notice`-level chatter (the "ready to handle connections" boot line and the
+`pm = dynamic` "seems busy"/"reached pm.max_children" warnings); raise it back to `warn`/`notice`
+if you want those capacity signals. The **per-request access log is disabled** by pointing it at
+`/dev/null` — an *explicit* override is required because the base image's `docker.conf` sets
+`access.log = /proc/self/fd/2`, so commenting the directive out is not enough. To re-enable it,
+set `access.log = /proc/self/fd/2` in a later-loading pool config. Genuine PHP errors and worker
+output still reach the logs via `error_log` and `catch_workers_output`.
 
 ---
 
