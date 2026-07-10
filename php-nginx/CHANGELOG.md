@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/idbi/id-docker/compare/php-nginx@v1.0.0...php-nginx@v1.0.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* correct nginx log format spacing ([76fa658](https://github.com/idbi/id-docker/commit/76fa658a3223645205479a8e9942cc63317eac55))
+
 ## [1.0.0](https://github.com/idbi/id-docker/compare/php-nginx@v0.3.0...php-nginx@v1.0.0) (2026-07-10)
 
 
