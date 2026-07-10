@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.4...php-nginx@v0.3.0) (2026-07-10)
+
+
+### Features
+
+* configure real IP handling in nginx ([c50cafa](https://github.com/idbi/id-docker/commit/c50cafa3aadf71a3dde8c4ec253b965b57acb8a0))
+
+
+### Bug Fixes
+
+* disable FPM per-request access log to reduce redundancy ([db03ba7](https://github.com/idbi/id-docker/commit/db03ba7ba75893d38257b65f63ec74a33f841e32))
+
 ## [0.2.4](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.3...php-nginx@v0.2.4) (2026-07-04)
 
 
