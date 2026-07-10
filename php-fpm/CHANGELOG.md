@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/idbi/id-docker/compare/php-fpm@v1.0.2...php-fpm@v1.0.3) (2026-07-10)
+
+
+### Bug Fixes
+
+* refine FPM logging configuration for clarity and reduce noise ([95d6c6b](https://github.com/idbi/id-docker/commit/95d6c6bcfd571a86e5359bb64c25d79c2dee1dd9))
+
 ## [1.0.2](https://github.com/idbi/id-docker/compare/php-fpm@v1.0.1...php-fpm@v1.0.2) (2026-07-10)
 
 
