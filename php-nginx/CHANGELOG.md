@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/idbi/id-docker/compare/php-nginx@v0.3.0...php-nginx@v1.0.0) (2026-07-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* update NGINX_PHP_FPM_HOST in php-nginx Dockerfile
+
+### Features
+
+* update NGINX_PHP_FPM_HOST in php-nginx Dockerfile ([d7db83a](https://github.com/idbi/id-docker/commit/d7db83ad2f6e8df1866f4f93b870ca721c0cfa92))
+
 ## [0.3.0](https://github.com/idbi/id-docker/compare/php-nginx@v0.2.4...php-nginx@v0.3.0) (2026-07-10)
 
 
