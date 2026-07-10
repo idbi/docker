@@ -24,7 +24,7 @@ COPY docker/default.conf.template /etc/nginx/templates/default.conf.template
 # mirrors the php-fpm image's upload limits (php.ini upload_max_filesize=64M).
 ENV NGINX_PORT=8080 \
     NGINX_ROOT=/app/public \
-    NGINX_PHP_FPM_HOST=app \
+    NGINX_PHP_FPM_HOST=weapp \
     NGINX_PHP_FPM_PORT=9000 \
     NGINX_CLIENT_MAX_BODY_SIZE=64m \
     NGINX_FASTCGI_READ_TIMEOUT=60s
