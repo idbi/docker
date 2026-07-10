@@ -33,8 +33,9 @@ container or pod** — one process per container.
 - **Non-root**: runs as the `www-data` user.
 - **Listens on** TCP **`9000`** for nginx (or any FastCGI client).
 - **Working directory**: `/app`.
-- **Worker output** (FPM access/error logs, stdout) goes to the container logs; PHP's own
-  `error_log` writes to `/var/log/php-fpm/errors.log` (see [Logging](#logging)).
+- **Worker output** (FPM error logs, stdout/stderr) goes to the container logs; PHP's own
+  `error_log` writes to `/var/log/php-fpm/errors.log` (see [Logging](#logging)). FPM's
+  **per-request access log is disabled** by default (nginx already logs requests).
 
 ### Production Tuning (`conf.d/zz-laravel.ini`)
 - **OPcache** sized for large codebases: `memory_consumption=512`, `interned_strings_buffer=128`,
@@ -245,7 +246,9 @@ point it at stderr in a downstream `.ini`:
 error_log = /dev/stderr
 ```
 
-FPM's own access/error logs and worker output already go to the container's stdout/stderr.
+FPM's own error logs and worker output already go to the container's stdout/stderr. The
+**per-request access log is disabled** in `zz-www.conf` (nginx logs requests already); to
+re-enable it, set `access.log = /proc/self/fd/2` in a later-loading pool config.
 
 ---
 
