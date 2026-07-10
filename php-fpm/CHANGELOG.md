@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/idbi/id-docker/compare/php-fpm@v1.0.1...php-fpm@v1.0.2) (2026-07-10)
+
+
+### Bug Fixes
+
+* update Dockerfile comments for clarity ([4b2ebb9](https://github.com/idbi/id-docker/commit/4b2ebb97493f0b3a8041c45741e826975ef78f75))
+
 ## [1.0.1](https://github.com/idbi/id-docker/compare/php-fpm@v1.0.0...php-fpm@v1.0.1) (2026-07-10)
 
 
