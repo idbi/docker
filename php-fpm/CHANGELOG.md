@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/idbi/id-docker/compare/php-fpm@v1.0.0...php-fpm@v1.0.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* disable FPM per-request access log to reduce redundancy ([db03ba7](https://github.com/idbi/id-docker/commit/db03ba7ba75893d38257b65f63ec74a33f841e32))
+
 ## 1.0.0 (2026-07-01)
 
 
