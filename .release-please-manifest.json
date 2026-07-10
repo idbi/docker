@@ -3,6 +3,6 @@
   "node-builder": "0.3.2",
   "php-builder": "0.4.2",
   "ssh-agent": "1.0.0",
-  "php-fpm": "1.0.0",
+  "php-fpm": "1.0.1",
   "php-nginx": "0.3.0"
 }
